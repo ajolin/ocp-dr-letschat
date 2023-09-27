@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    appname: letschat
+  name: letschat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      appname: letschat
+  template:
+    metadata:
+      labels:
+        appname: letschat
+    spec:
+      containers:
+      - image: docker.io/sdelements/lets-chat:latest
+        imagePullPolicy: IfNotPresent
+        name: letschat
+        ports:
+          - containerPort: 8080
+            protocol: TCP
+        env:
+          - name: LCB_DATABASE_URI
+            value: mongodb://mongodb:27017/
+          - name: MONGODB_USER
+            value: letschat
+          - name: MONGODB_PASSWORD
+            value: letschat
+          - name: MONGODB_ADMIN_PASSWORD
+            value: letschat
+          - name: MONGODB_DATABASE
+            value: letschat 
+        volumeMounts:
+          - name: mypvc
+            mountPath: /mnt/test
+      volumes:
+        - name: mypvc
+          persistentVolumeClaim:
+            claimName: letschat-pvc

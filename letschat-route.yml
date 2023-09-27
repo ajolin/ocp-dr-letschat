@@ -1,0 +1,13 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: letschat
+  namespace: test
+  labels: {}
+spec:
+  to:
+    kind: Service
+    name: letschat
+  tls: null
+  port:
+    targetPort: letschat
